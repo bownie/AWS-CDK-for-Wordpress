@@ -57,22 +57,98 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
+## AWS Configuration
+
+Before deploying, you need to configure AWS credentials and set your target region.
+
+### Option 1: AWS CLI Configuration (Recommended)
+
+Install the AWS CLI if you haven't already:
+```bash
+# macOS with Homebrew
+brew install awscli
+
+# Or visit https://aws.amazon.com/cli/
+```
+
+Configure your AWS credentials:
+```bash
+aws configure
+```
+
+You'll be prompted to enter:
+- **AWS Access Key ID** - Get this from AWS IAM Console (Security Credentials)
+- **AWS Secret Access Key** - Provided when creating access keys
+- **Default region name** - e.g., `us-east-1` (where to deploy resources)
+- **Default output format** - Leave blank or use `json`
+
+This creates/updates `~/.aws/credentials` and `~/.aws/config` files.
+
+### Option 2: Environment Variables
+
+Set AWS credentials via environment variables:
+```bash
+export AWS_ACCESS_KEY_ID="your-access-key"
+export AWS_SECRET_ACCESS_KEY="your-secret-key"
+export AWS_DEFAULT_REGION="us-east-1"
+```
+
+### Option 3: IAM Role (for EC2/Lambda)
+
+If running CDK from an AWS EC2 instance or Lambda, attach an IAM role with permissions:
+- `ec2:*` (EC2 management)
+- `rds:*` (RDS management)
+- `elasticloadbalancing:*` (Load Balancer)
+- `ec2:*` (VPC/networking)
+- `iam:CreateRole`, `iam:PutRolePolicy`, etc. (IAM permissions)
+
+### Verify Configuration
+
+Test your AWS configuration:
+```bash
+# Check your identity
+aws sts get-caller-identity
+
+# Should output:
+# {
+#     "UserId": "...",
+#     "Account": "123456789012",
+#     "Arn": "arn:aws:iam::123456789012:user/your-username"
+# }
+```
+
 ## Deployment
+
+### Prerequisites for Deployment
+- AWS credentials configured (see [AWS Configuration](#aws-configuration) section above)
+- IAM user/role with permissions for: EC2, RDS, ElasticLoadBalancing, VPC, IAM, Secrets Manager, CloudFormation
+- AWS account with appropriate limits (default is usually sufficient)
+
+### Deploy Steps
 
 Before deploying, verify the infrastructure is valid:
 
 ```bash
+# List all stacks
+cdk ls
+
 # Synthesize CloudFormation template
 cdk synth
 
-# Preview changes before deploying
+# Preview changes before deploying (no resources created yet)
 cdk diff
 
-# Deploy to AWS
+# Deploy to AWS (creates real resources)
 cdk deploy
+
+# When prompted, review the security changes and type 'y' to confirm
 ```
 
-**Note:** The `cdk deploy` command will create real AWS resources in your account. This may incur charges. Verify resource configurations before deploying.
+**Important Notes:**
+- The `cdk deploy` command creates real AWS resources in your account and **will incur charges**
+- Review the CloudFormation changes displayed by `cdk diff` before deploying
+- Start in a development account first to test
+- Use `cdk destroy` to clean up resources when done (be cautious - this deletes data)
 
 ## Project Structure
 
