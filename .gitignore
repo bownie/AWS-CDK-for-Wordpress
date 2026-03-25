@@ -1,0 +1,33 @@
+*.swp
+*.swo
+*~
+.DS_Store
+package-lock.json
+__pycache__
+*.pyc
+.pytest_cache
+.coverage
+htmlcov/
+.venv
+venv/
+env/
+*.egg-info
+dist/
+build/
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.sublime-workspace
+
+# OS
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
