@@ -19,7 +19,7 @@ class TestRDSStack(unittest.TestCase):
             "AWS::RDS::DBInstance",
             {
                 "Engine": "postgres",
-                "EngineVersion": "15.4",
+                "EngineVersion": assertions_module.Match.string_like_regexp("^14"),
             },
         )
 

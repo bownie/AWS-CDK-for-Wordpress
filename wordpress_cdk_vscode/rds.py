@@ -7,7 +7,7 @@ class RDSStack(Construct):
         self.db = rds.DatabaseInstance(
             self, "WordpressPostgres",
             engine=rds.DatabaseInstanceEngine.postgres(
-                version=rds.PostgresEngineVersion.VER_15_4
+                version=rds.PostgresEngineVersion.VER_14
             ),
             vpc=vpc,
             multi_az=False,
