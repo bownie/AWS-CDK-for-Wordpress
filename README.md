@@ -135,6 +135,10 @@ cdk ls
 # Synthesize CloudFormation template
 cdk synth
 
+# Bootstrap AWS account (run once per account/region)
+# Creates CloudFormation stack and S3 bucket for CDK
+cdk bootstrap
+
 # Preview changes before deploying (no resources created yet)
 cdk diff
 
@@ -143,6 +147,12 @@ cdk deploy
 
 # When prompted, review the security changes and type 'y' to confirm
 ```
+
+**About `cdk bootstrap`:**
+- Required once per AWS account/region before first deployment
+- Creates CloudFormation stack and S3 bucket that CDK uses for deployments
+- Uses stack name `CDKToolkit` and S3 bucket for storing CloudFormation artifacts
+- Safe to run multiple times on the same account/region (idempotent)
 
 **Important Notes:**
 - The `cdk deploy` command creates real AWS resources in your account and **will incur charges**
