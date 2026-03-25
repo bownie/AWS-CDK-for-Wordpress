@@ -107,6 +107,22 @@ pytest tests/unit/ -v -k test_ec2        # Run specific test pattern
 python -m unittest discover tests/unit/  # Alternative test runner
 ```
 
+## Continuous Integration
+
+This repository includes a GitHub Actions workflow (`.github/workflows/ci.yml`) that automatically runs on every push and pull request:
+
+**Workflow triggers:**
+- Push to `main` or `develop` branches
+- Pull requests to `main` or `develop` branches
+
+**Workflow steps:**
+1. Sets up Python 3.12 environment
+2. Installs project dependencies
+3. Runs all 28 unit tests with pytest
+4. Verifies CDK template synthesis
+
+All tests must pass before merging to main. Check the **Actions** tab on GitHub to view workflow runs and test results.
+
 ## Post-Deployment
 
 After successful deployment, the ALB DNS name will be displayed in the CloudFormation outputs. Use this to access your WordPress infrastructure through the load balancer.

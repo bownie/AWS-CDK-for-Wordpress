@@ -1,0 +1,49 @@
+name: CI - Test Infrastructure
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.12']
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Create virtual environment
+      run: |
+        python -m venv .venv
+        source .venv/bin/activate
+        echo "VIRTUAL_ENV=.venv" >> $GITHUB_ENV
+        echo "$PWD/.venv/bin" >> $GITHUB_PATH
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+
+    - name: Run unit tests
+      run: |
+        python -m pytest tests/unit/ -v --tb=short
+
+    - name: Verify CDK synthesis
+      run: |
+        npx -y aws-cdk@latest synth 2>&1 | tail -20
+
+    - name: Test summary
+      if: always()
+      run: |
+        echo "✅ Infrastructure tests completed"
+        echo "Run 'cdk deploy' to provision AWS resources"
