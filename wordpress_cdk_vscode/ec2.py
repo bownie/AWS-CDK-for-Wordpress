@@ -26,7 +26,7 @@ class EC2Stack(Construct):
             instance = ec2.Instance(
                 self, f"WebServer{i+1}",
                 instance_type=ec2.InstanceType("t3.micro"),
-                machine_image=ec2.MachineImage.latest_amazon_linux2(),
+                machine_image=ec2.AmazonLinuxImage(generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2),
                 vpc=vpc,
                 security_group=self.sg,
                 user_data=user_data
