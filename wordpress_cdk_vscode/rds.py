@@ -1,4 +1,4 @@
-from aws_cdk import aws_rds as rds, aws_ec2 as ec2
+from aws_cdk import aws_rds as rds, aws_ec2 as ec2, Duration
 from constructs import Construct
 
 class RDSStack(Construct):
@@ -18,5 +18,6 @@ class RDSStack(Construct):
             ),
             credentials=rds.Credentials.from_generated_secret("postgres"),
             publicly_accessible=False,
-            removal_policy=None
+            removal_policy=None,
+            backup_retention=Duration.days(7)
         )
