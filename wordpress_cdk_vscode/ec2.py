@@ -1,9 +1,21 @@
-from aws_cdk import aws_ec2 as ec2
+from aws_cdk import aws_ec2 as ec2, aws_iam as iam
 from constructs import Construct
 
 class EC2Stack(Construct):
     def __init__(self, scope: Construct, id: str, vpc, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
+        
+        # IAM Role for EC2 instances to support Systems Manager Session Manager
+        role = iam.Role(
+            self, "WebServerRole",
+            assumed_by=iam.ServicePrincipal("ec2.amazonaws.com"),
+            description="Role for EC2 instances with SSM Session Manager access"
+        )
+        # Attach the managed policy for SSM Session Manager access
+        role.add_managed_policy(
+            iam.ManagedPolicy.from_aws_managed_policy_name("AmazonSSMManagedInstanceCore")
+        )
+        
         # Security group for EC2
         self.sg = ec2.SecurityGroup(
             self, "WebServerSG",
@@ -29,6 +41,7 @@ class EC2Stack(Construct):
                 machine_image=ec2.AmazonLinuxImage(generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2),
                 vpc=vpc,
                 security_group=self.sg,
+                role=role,
                 user_data=user_data
             )
             self.instances.append(instance)

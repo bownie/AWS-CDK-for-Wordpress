@@ -4,7 +4,7 @@
 This project defines a production-ready WordPress infrastructure on AWS using the AWS CDK Python framework. It provisions a scalable, secure multi-tier architecture with:
 
 - **Application Load Balancer** - Distributes incoming traffic across EC2 instances
-- **EC2 Web Servers** - Two t3.micro instances running nginx in private subnets
+- **EC2 Web Servers** - Two t3.micro instances running nginx in private subnets with Systems Manager Session Manager access
 - **PostgreSQL Database** - RDS instance (db.t3.micro) with automated backups, auto-scaling storage, and credentials managed via Secrets Manager
 - **VPC with Multi-AZ** - Two availability zones with public/private subnet separation and NAT Gateway for secure outbound traffic
 
@@ -211,9 +211,34 @@ All tests must pass before merging to main. Check the **Actions** tab on GitHub 
 
 ## Post-Deployment
 
+### Access Web Server
+
 After successful deployment, the ALB DNS name will be displayed in the CloudFormation outputs. Use this to access your WordPress infrastructure through the load balancer.
 
+### Access EC2 Instances via Session Manager
+
+EC2 instances have AWS Systems Manager Session Manager enabled for secure shell access (no SSH keys needed):
+
+```bash
+# List EC2 instances
+aws ec2 describe-instances --filters "Name=tag:aws:cloudformation:logical-id,Values=EC2StackWebServer1*" --query 'Reservations[0].Instances[0].InstanceId'
+
+# Start a session with an EC2 instance
+aws ssm start-session --target i-xxxxxxxxxxxxxxxxx
+
+# Or use the console: Systems Manager → Session Manager → Start session
+```
+
+**Benefits:**
+- No SSH keys to manage
+- Centralized audit logging
+- Works from any browser or CLI
+- No need to open SSH port to the internet
+
+### Retrieve RDS Database Credentials
+
 The RDS credentials are automatically generated and stored in AWS Secrets Manager. Retrieve them with:
+
 ```bash
 aws secretsmanager get-secret-value --secret-id <instance-id>/master
 ```

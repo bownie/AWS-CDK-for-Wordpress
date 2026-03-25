@@ -1,0 +1,163 @@
+digraph "Diagram" {
+  splines = "ortho";
+  pad = 1;
+  nodesep = 0.6;
+  ranksep = 0.75;
+  fontname = "Sans-Serif";
+  fontsize = 15;
+  dpi = 200;
+  rankdir = "BT";
+  compound = true;
+  fontcolor = "#222222";
+  edge [
+    color = "#D5871488";
+    penwidth = 2;
+    arrowhead = "dot";
+    arrowtail = "dot";
+  ];
+  node [
+    shape = "box";
+    style = "rounded";
+    fixedsize = true;
+    width = 1.7;
+    height = 1.7;
+    labelloc = "c";
+    imagescale = true;
+    fontname = "Sans-Serif";
+    fontsize = 8;
+    margin = 8;
+  ];
+  subgraph "WordpressCdkVscodeStack" {
+    subgraph "cluster-SubGraph.WordpressCdkVscodeStack" {
+      graph [
+        label = "WordpressCdkVscodeStack";
+        labelloc = "b";
+        labeljust = "l";
+        margin = 10;
+        fontsize = 16;
+        penwidth = 2;
+        pencolor = "#888888";
+        style = "filled,rounded";
+        fillcolor = "#e4e4e4";
+      ];
+      "WordpressCdkVscodeStack/NetworkStack/WordpressVpc" [
+        label = " WordpressVpc";
+        fontsize = 12;
+        image = "/Users/richardbown/.nvm/versions/node/v22.12.0/lib/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-Virtual-Private-Cloud_64@5x.png";
+        imagescale = "true";
+        imagepos = "tc";
+        penwidth = 0;
+        shape = "node";
+        fixedsize = "true";
+        labelloc = "b";
+        width = 2;
+        height = 2.266;
+      ];
+      "WordpressCdkVscodeStack/RDSStack/WordpressPostgres" [
+        label = " WordpressPostgres";
+        fontsize = 12;
+        image = "/Users/richardbown/.nvm/versions/node/v22.12.0/lib/node_modules/cdk-dia/icons/aws/Resource/Res_Compute/Res_48_Dark/Res_Amazon-EC2_T3-Instance_48_Dark.png";
+        imagescale = "true";
+        imagepos = "tc";
+        penwidth = 0;
+        shape = "node";
+        fixedsize = "true";
+        labelloc = "b";
+        width = 2;
+        height = 2.266;
+      ];
+      "WordpressCdkVscodeStack/ALBStack/WordpressALB" [
+        label = " WordpressALB";
+        fontsize = 12;
+        image = "/Users/richardbown/.nvm/versions/node/v22.12.0/lib/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Elastic-Load-Balancing_64@5x.png";
+        imagescale = "true";
+        imagepos = "tc";
+        penwidth = 0;
+        shape = "node";
+        fixedsize = "true";
+        labelloc = "b";
+        width = 2;
+        height = 2.266;
+      ];
+      subgraph "cluster-SubGraph.EC2Stack" {
+        graph [
+          label = "EC2Stack";
+          labelloc = "b";
+          labeljust = "l";
+          margin = 10;
+          fontsize = 16;
+          penwidth = 2;
+          pencolor = "#888888";
+          style = "filled,rounded";
+          fillcolor = "#d6d6d6";
+        ];
+        "WordpressCdkVscodeStack/EC2Stack/WebServerSG" [
+          label = " WebServerSG";
+          fontsize = 12;
+          image = "/Users/richardbown/.nvm/versions/node/v22.12.0/lib/node_modules/cdk-dia/icons/aws/security_group.png";
+          imagescale = "true";
+          imagepos = "tc";
+          penwidth = 0;
+          shape = "node";
+          fixedsize = "true";
+          labelloc = "b";
+          width = 2;
+          height = 2.266;
+        ];
+        "WordpressCdkVscodeStack/EC2Stack/WebServer1" [
+          label = " WebServer1";
+          fontsize = 12;
+          image = "/Users/richardbown/.nvm/versions/node/v22.12.0/lib/node_modules/cdk-dia/icons/aws/Resource/Res_Compute/Res_48_Dark/Res_Amazon-EC2_T3-Instance_48_Dark.png";
+          imagescale = "true";
+          imagepos = "tc";
+          penwidth = 0;
+          shape = "node";
+          fixedsize = "true";
+          labelloc = "b";
+          width = 2;
+          height = 2.266;
+        ];
+        "WordpressCdkVscodeStack/EC2Stack/WebServer2" [
+          label = " WebServer2";
+          fontsize = 12;
+          image = "/Users/richardbown/.nvm/versions/node/v22.12.0/lib/node_modules/cdk-dia/icons/aws/Resource/Res_Compute/Res_48_Dark/Res_Amazon-EC2_T3-Instance_48_Dark.png";
+          imagescale = "true";
+          imagepos = "tc";
+          penwidth = 0;
+          shape = "node";
+          fixedsize = "true";
+          labelloc = "b";
+          width = 2;
+          height = 2.266;
+        ];
+      }
+    }
+  }
+  "WordpressCdkVscodeStack/EC2Stack/WebServerSG" -> "WordpressCdkVscodeStack/NetworkStack/WordpressVpc" [
+    dir = "both";
+  ];
+  "WordpressCdkVscodeStack/EC2Stack/WebServer1" -> "WordpressCdkVscodeStack/NetworkStack/WordpressVpc" [
+    dir = "both";
+  ];
+  "WordpressCdkVscodeStack/EC2Stack/WebServer1" -> "WordpressCdkVscodeStack/EC2Stack/WebServerSG" [
+    dir = "both";
+  ];
+  "WordpressCdkVscodeStack/EC2Stack/WebServer2" -> "WordpressCdkVscodeStack/NetworkStack/WordpressVpc" [
+    dir = "both";
+  ];
+  "WordpressCdkVscodeStack/EC2Stack/WebServer2" -> "WordpressCdkVscodeStack/EC2Stack/WebServerSG" [
+    dir = "both";
+  ];
+  "WordpressCdkVscodeStack/RDSStack/WordpressPostgres" -> "WordpressCdkVscodeStack/NetworkStack/WordpressVpc" [
+    dir = "both";
+  ];
+  "WordpressCdkVscodeStack/ALBStack/WordpressALB" -> "WordpressCdkVscodeStack/NetworkStack/WordpressVpc" [
+    dir = "both";
+  ];
+  "WordpressCdkVscodeStack/ALBStack/WordpressALB" -> "WordpressCdkVscodeStack/EC2Stack/WebServer1" [
+    dir = "both";
+  ];
+  "WordpressCdkVscodeStack/ALBStack/WordpressALB" -> "WordpressCdkVscodeStack/EC2Stack/WebServer2" [
+    dir = "both";
+  ];
+}
