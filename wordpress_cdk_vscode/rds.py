@@ -14,7 +14,7 @@ class RDSStack(Construct):
             allocated_storage=20,
             max_allocated_storage=100,
             instance_type=ec2.InstanceType.of(
-                ec2.InstanceClass.BURSTABLE2, ec2.InstanceSize.MICRO
+                ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.MICRO
             ),
             credentials=rds.Credentials.from_generated_secret("postgres"),
             publicly_accessible=False,

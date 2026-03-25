@@ -5,7 +5,7 @@ This project defines a production-ready WordPress infrastructure on AWS using th
 
 - **Application Load Balancer** - Distributes incoming traffic across EC2 instances
 - **EC2 Web Servers** - Two t3.micro instances running nginx in private subnets
-- **PostgreSQL Database** - RDS instance with automated backups, auto-scaling storage, and credentials managed via Secrets Manager
+- **PostgreSQL Database** - RDS instance (db.t3.micro) with automated backups, auto-scaling storage, and credentials managed via Secrets Manager
 - **VPC with Multi-AZ** - Two availability zones with public/private subnet separation and NAT Gateway for secure outbound traffic
 
 ## Testing

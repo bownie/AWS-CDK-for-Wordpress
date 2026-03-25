@@ -28,7 +28,7 @@ class TestRDSStack(unittest.TestCase):
         self.template.has_resource_properties(
             "AWS::RDS::DBInstance",
             {
-                "DBInstanceClass": "db.t2.micro",
+                "DBInstanceClass": "db.t3.micro",
             },
         )
 
