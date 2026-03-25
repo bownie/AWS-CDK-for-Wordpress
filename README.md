@@ -10,16 +10,21 @@ This project defines a production-ready WordPress infrastructure on AWS using th
 
 ## Testing
 
-This project includes a comprehensive test suite with **28 unit tests** covering all infrastructure components:
-- VPC and networking configuration
-- EC2 security groups and instance setup
-- RDS database configuration and security
-- Load balancer setup and targeting
-- Resource tagging and integration tests
+This project includes a comprehensive modular test suite with **28 unit tests** organized by infrastructure component:
+
+- **test_network.py** (4 tests) - VPC, subnets, NAT Gateway, Internet Gateway
+- **test_ec2.py** (9 tests) - EC2 instances, security groups, IAM roles, nginx configuration
+- **test_rds.py** (9 tests) - PostgreSQL database, storage, backups, security, Secrets Manager
+- **test_alb.py** (6 tests) - Application Load Balancer, listener, target groups, health checks
 
 **All tests pass successfully.** Run tests with:
 ```bash
-python -m pytest tests/unit/test_wordpress_infrastructure.py -v
+# Run all tests
+pytest tests/unit/ -v
+
+# Run tests for a specific component
+pytest tests/unit/test_ec2.py -v
+pytest tests/unit/test_rds.py -v
 ```
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
@@ -79,8 +84,12 @@ wordpress_cdk_vscode/
 ├── ec2.py                          # EC2 instances and security groups
 ├── rds.py                          # PostgreSQL RDS instance
 ├── alb.py                          # Application Load Balancer
+
 tests/unit/
-└── test_wordpress_infrastructure.py # 28 comprehensive tests
+├── test_network.py                 # 4 tests for VPC and networking
+├── test_ec2.py                     # 9 tests for EC2 instances
+├── test_rds.py                     # 9 tests for RDS database
+└── test_alb.py                     # 6 tests for load balancer
 ```
 
 ## Useful Commands
